@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>داشبورد هفته جغرافیا ۲۰۲۵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF3F3;--surface:#FFFFFF;--ink:#10222E;--muted:#4F6470;--line:#CFDCDD;
+  --edu:#C8553D;--map:#1F7A7A;--gis:#2F5DA8;--hero:#0F3D4C;--hero-ink:#EAF4F4;--hl:#D9A441;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C1A21;--surface:#13262F;--ink:#E6F0F1;--muted:#9BB2BA;--line:#25404B;
+  --edu:#E8806A;--map:#4FB5B0;--gis:#7DA3E6;--hero:#08242E;--hero-ink:#EAF4F4}}
+:root[data-theme="dark"]{--bg:#0C1A21;--surface:#13262F;--ink:#E6F0F1;--muted:#9BB2BA;--line:#25404B;--edu:#E8806A;--map:#4FB5B0;--gis:#7DA3E6;--hero:#08242E;--hero-ink:#EAF4F4}
+html{scroll-padding-top:env(safe-area-inset-top,0px);color-scheme:light dark}
+*{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;line-height:1.9}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.hero{background:var(--hero);color:var(--hero-ink);position:relative;overflow:hidden;padding:56px 0 48px}
+header.hero svg.contours{position:absolute;inset:0;width:100%;height:100%;opacity:.16}
+.hero h1{font-size:clamp(30px,5vw,52px);font-weight:900;margin:0 0 10px;line-height:1.3}
+.hero p{max-width:60ch;margin:0;color:#BCD6D8;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:32px}
+.stat{border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:12px 16px}
+.stat b{display:block;font-size:30px;font-weight:900;color:var(--hl);line-height:1.4}
+.stat span{font-size:13px;color:#BCD6D8}
+nav.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0}
+nav.tools .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;cursor:pointer}
+.f{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:3px 16px;border-radius:99px;font-size:14px}
+.f[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.f:focus-visible,.chip:focus-visible,#theme:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+#theme{margin-inline-start:auto;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:3px 14px;font-size:14px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px}
+section{padding:36px 0 8px}
+h2{font-size:24px;margin:0 0 6px;font-weight:700}
+.sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.tl{display:grid;grid-template-columns:repeat(7,minmax(118px,1fr));gap:0;overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.day{border-inline-start:1px solid var(--line);padding:10px 8px;min-height:190px}
+.day:first-child{border-inline-start:0}
+.day.core{background:color-mix(in srgb,var(--hl) 12%,var(--surface))}
+.day h3{margin:0 0 8px;font-size:14px;font-weight:700}
+.day h3 small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.chip{display:block;width:100%;text-align:start;border:0;border-inline-start:4px solid var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--ink);padding:2px 8px;margin-bottom:6px;border-radius:4px;font-size:13px}
+.chip.off{opacity:.25}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:8px;padding:16px 18px}
+.card.flash{box-shadow:0 0 0 3px var(--hl)}
+.card[hidden]{display:none}
+.card h3{margin:0;font-size:18px}
+.meta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.card p{margin:0 0 8px;font-size:14.5px}
+.use{border-top:1px dashed var(--line);padding-top:8px;font-size:13.5px;color:var(--muted)}
+.use b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--c);font-weight:500}
+.bars{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.bar{display:grid;grid-template-columns:130px 1fr 30px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+.track{height:14px;background:var(--bg);border-radius:7px;overflow:hidden}
+.fill{height:100%;border-radius:7px}
+.iran{background:var(--surface);border:1px solid var(--line);border-inline-start:6px solid var(--hl);border-radius:8px;padding:16px 20px}
+.iran p{margin:0 0 8px}
+footer{padding:36px 0 48px;color:var(--muted);font-size:13px}
+@media (max-width:600px){.bar{grid-template-columns:96px 1fr 24px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="contours" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="#9FD0D0" stroke-width="1.2">
+    <ellipse cx="620" cy="150" rx="90" ry="50"/><ellipse cx="620" cy="150" rx="150" ry="85"/><ellipse cx="620" cy="150" rx="215" ry="125"/><ellipse cx="620" cy="150" rx="285" ry="165"/><ellipse cx="620" cy="150" rx="360" ry="210"/><ellipse cx="620" cy="150" rx="440" ry="260"/>
+  </svg>
+  <div class="wrap" style="position:relative">
+    <h1>هفته جغرافیا در جهان، ۲۰۲۵</h1>
+    <p>نگاهی به برنامه‌های مستند آبان و نوامبر ۱۴۰۴: از آموزش عمومی و نقشه‌نگاری بشردوستانه تا روز GIS در دانشگاه‌ها. هفته اصلی ۱۷ تا ۲۱ نوامبر ۲۰۲۵ (۲۶ تا ۳۰ آبان ۱۴۰۴) برگزار شد.</p>
+    <div class="stats">
+      <div class="stat"><b>۱۲</b><span>برنامه یا مجموعه مستند</span></div>
+      <div class="stat"><b>۱۰</b><span>کشور یا منطقه</span></div>
+      <div class="stat"><b>۳</b><span>محور: آموزش، نقشه‌نگاری، GIS</span></div>
+      <div class="stat"><b>۷</b><span>روز بازه بررسی (۱۷ تا ۲۳ نوامبر)</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tools" aria-label="فیلتر برنامه‌ها">
+  <div class="wrap">
+    <button class="f" data-k="all" aria-pressed="true">همه</button>
+    <button class="f" data-k="edu" aria-pressed="false"><span class="dot" style="background:var(--edu)"></span>آموزش و جغرافیای شهری</button>
+    <button class="f" data-k="map" aria-pressed="false"><span class="dot" style="background:var(--map)"></span>نقشه‌نگاری بشردوستانه</button>
+    <button class="f" data-k="gis" aria-pressed="false"><span class="dot" style="background:var(--gis)"></span>روز GIS و فناوری مکانی</button>
+    <button id="theme" type="button" aria-label="تغییر حالت روشن یا تاریک">روشن / تاریک</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section>
+    <h2>خط زمانی ۱۷ تا ۲۳ نوامبر</h2>
+    <p class="sub">روی هر برنامه بزنید تا کارتش در پایین باز شود. ستون‌های هایلایت‌شده، هفته اصلی هستند.</p>
+    <div class="tl" id="tl"></div>
+    <div class="legend"><span>آلمان، اتریش و سوئیس: برنامه در بازه هفته، بدون تاریخ روزانه مشخص (در کارت‌ها)</span></div>
+  </section>
+
+  <section>
+    <h2>برنامه‌ها به تفکیک کشور</h2>
+    <p class="sub">فقط نمونه‌های دارای شواهد منتشرشده؛ فهرست کامل کشورهای شرکت‌کننده نیست.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section>
+    <h2>سهم هر محور</h2>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <section>
+    <h2>وضعیت ایران</h2>
+    <div class="iran">
+      <p>در منابع عمومی، اطلاعیه‌ای جامع که مجموعه برنامه‌های «هفته جغرافیا» را در آبان ۱۴۰۴ ثبت کرده باشد پیدا نشد.</p>
+      <p><b>نمونه مستند:</b> دانشکده علوم جغرافیایی دانشگاه خوارزمی در ۲ دی ۱۴۰۴ نشستی با عنوان «روز جغرافیا» برگزار کرد.</p>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">منابع: AAG، پزشکان بدون مرز، دانشگاه نایروبی، RCMRD، دانشگاه آسیای مرکزی، Esri Japan، KIOS، خبرگزاری رسمی عربستان، دانشگاه مک‌مستر، DVAG. تاریخ برخی رویدادها (مانند RCMRD) در منابع ناهمخوان است.</div></footer>
+
+<script>
+var C={edu:'var(--edu)',map:'var(--map)',gis:'var(--gis)'};
+var L={edu:'آموزش و جغرافیای شهری',map:'نقشه‌نگاری بشردوستانه',gis:'روز GIS و فناوری مکانی'};
+var D=[
+{id:'us',n:'آمریکا',t:'edu',d:[17,21],dt:'۱۷ تا ۲۱ نوامبر',s:'موضوع AAG: «ایجاد فضاهای امکان‌پذیری». برنامه‌های عمومی درباره پنج محور جغرافیا در فورت هیز، نمایش ابزار STELLA و آموزش سنجش از دور در اورگن، و رقابت دانشجویان در نقشه‌نگاری OpenStreetMap.',u:'غرفه آموزشی، نمایش تجهیزات و فعالیت گروهی، جغرافیا را عملی می‌کند.'},
+{id:'dach',n:'آلمان، اتریش و سوئیس',t:'edu',d:null,dt:'در بازه هفته',s:'گردش علمی در هامبورگ درباره حمل‌ونقل عمومی، پادکست مشاغل جغرافیا و نشست آنلاین درباره سامانه‌های اشتراک سفر؛ به‌علاوه نقشه‌نگاری گروه‌های دانشجویی برای پزشکان بدون مرز.',u:'پیوند جغرافیا با ترافیک، حمل‌ونقل و اشتغال مخاطب عمومی را جذب می‌کند.'},
+{id:'uk',n:'بریتانیا',t:'map',d:[18,18],dt:'۱۸ نوامبر',s:'رویداد مجازی نقشه‌نگاری گروهی پزشکان بدون مرز به زبان انگلیسی با داده‌های آزاد برای مناطق نیازمند کمک.',u:'رویداد آنلاین بدون امکانات حضوری گسترده هم شدنی است.'},
+{id:'cz',n:'جمهوری چک',t:'map',d:[20,20],dt:'۲۰ نوامبر',s:'برنامه ترکیبی (حضوری و مجازی) به زبان چکی برای ایجاد و به‌روزرسانی داده‌های مکانی مناطق آسیب‌پذیر.',u:'همکاری داوطلبان، سازمان‌های مردم‌نهاد و گروه‌های امدادی.'},
+{id:'kr',n:'کره جنوبی',t:'map',d:[21,21],dt:'۲۱ نوامبر',s:'رویداد حضوری نقشه‌نگاری پزشکان بدون مرز به زبان کره‌ای، در چارچوب همان مجموعه جهانی.',u:'مشارکت عملی شهروندان در تولید داده مکانی.',x:'این سه مورد برنامه‌های بین‌المللی مرتبط با هفته جغرافیا هستند، نه لزوماً هفته ملی رسمی.'},
+{id:'ke',n:'کنیا',t:'gis',d:[18,20],dt:'۱۸ تا ۲۰ نوامبر',s:'هفته GIS دانشگاه نایروبی با نمایشگاه، کارگاه، شبکه‌سازی و چالش تجسم داده. مرکز RCMRD هم روز GIS را با سخنرانی، نمایش زنده و مسابقه برگزار کرد.',u:'ترکیب نمایشگاه، کارگاه و رقابت دانشجویی.',x:'تاریخ RCMRD در منبع ناهمخوان است (۱۹ یا ۲۱ نوامبر).'},
+{id:'kg',n:'قرقیزستان',t:'gis',d:[19,19],dt:'۱۹ نوامبر',s:'نخستین روز بین‌المللی GIS در بیشکک، با دانشگاه آسیای مرکزی و نهاد ژئودزی: ژئوپورتال ملی، تبدیل مختصات به WGS84، امنیت غذایی و تجسم داده سلامت.',u:'همکاری دولت و دانشگاه، نظریه را به نیاز اجرایی وصل می‌کند.'},
+{id:'bg',n:'بلغارستان',t:'gis',d:[19,19],dt:'۱۹ نوامبر',s:'کنفرانس صوفیه با Esri Bulgaria و حدود ۷۰ سازمان: تاب‌آوری، دوقلوهای دیجیتال، Natura 2000 و نمایشگاه مجازی پروژه‌های آموزشی.',u:'پیوند دانشگاه، فناوری و سیاست‌گذاری محیط‌زیستی.'},
+{id:'cy',n:'قبرس',t:'gis',d:[19,19],dt:'۱۹ نوامبر',s:'هفتمین روز GIS مرکز KIOS با عنوان «ترسیم آینده: دوقلوهای دیجیتال در دنیای واقعی» و سخنرانی اصلی درباره آب و فناوری.',u:'دوقلوهای دیجیتال، جغرافیا را به زیرساخت شهری و محیط‌زیست می‌رساند.'},
+{id:'ca',n:'کانادا',t:'gis',d:[19,19],dt:'۱۹ نوامبر',s:'ارائه‌های کوتاه پژوهشی دانشگاه مک‌مستر: آتش‌سوزی کم‌شدت، دما و پوشش گیاهی، داده GPS دوچرخه‌های اشتراکی و مکان‌یابی کشاورزی احیاکننده.',u:'نقش جغرافیا در پژوهش‌های میان‌رشته‌ای.'},
+{id:'jp',n:'ژاپن',t:'gis',d:[22,22],dt:'۲۲ نوامبر (حاشیه بازه)',s:'روز GIS دانشگاه متروپولیتن توکیو با Esri Japan: شش مسیر کارگاهی از مقدماتی تا Leaflet و یادگیری ماشین با Python.',u:'کارگاه‌های هم‌زمان در چند سطح مهارتی.'},
+{id:'sa',n:'عربستان سعودی',t:'gis',d:[23,23],dt:'۲۳ نوامبر (حاشیه بازه)',s:'پانزدهمین روز GIS دانشگاه ملک سعود در ریاض، با نمایشگاه دوروزه نهادهای دولتی و خصوصی.',u:'کاربرد GIS در تحلیل داده، طراحی نقشه و چالش‌های طبیعی و انسانی.',x:'برنامه‌ریزی و زمان تأیید شده؛ گزارش تفصیلی اجرا در دسترس نیست.'}
+];
+var P=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+var G=['۲۶ آبان','۲۷ آبان','۲۸ آبان','۲۹ آبان','۳۰ آبان','۱ آذر','۲ آذر'];
+var fa=function(n){return String(n).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})};
+var cur='all';
+var tl=document.getElementById('tl'),grid=document.getElementById('grid');
+for(var i=0;i<7;i++){
+  var day=17+i,el=document.createElement('div');
+  el.className='day'+(i<5?' core':'');
+  el.innerHTML='<h3>'+fa(day)+' نوامبر<small>'+G[i]+'</small></h3>';
+  D.forEach(function(e){
+    if(e.d&&day>=e.d[0]&&day<=e.d[1]){
+      var b=document.createElement('button');
+      b.className='chip';b.type='button';b.dataset.t=e.t;b.dataset.id=e.id;
+      b.style.setProperty('--c',C[e.t]);b.textContent=e.n;
+      b.onclick=function(){go(e.id)};
+      el.appendChild(b);
+    }
+  });
+  tl.appendChild(el);
+}
+D.forEach(function(e){
+  var c=document.createElement('article');
+  c.className='card';c.id='c-'+e.id;c.dataset.t=e.t;c.style.setProperty('--c',C[e.t]);
+  c.innerHTML='<h3>'+e.n+'</h3><div class="meta">'+e.dt+' | '+L[e.t]+'</div><p>'+e.s+'</p>'+(e.x?'<p class="note">'+e.x+'</p>':'')+'<div class="use"><b>نکته کاربردی:</b> '+e.u+'</div>';
+  grid.appendChild(c);
+});
+function go(id){
+  setFilter('all');
+  var c=document.getElementById('c-'+id);
+  c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
+  c.classList.add('flash');setTimeout(function(){c.classList.remove('flash')},1600);
+}
+function setFilter(k){
+  cur=k;
+  document.querySelectorAll('.f').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k)});
+  document.querySelectorAll('.card').forEach(function(c){c.hidden=(k!=='all'&&c.dataset.t!==k)});
+  document.querySelectorAll('.chip').forEach(function(c){c.classList.toggle('off',k!=='all'&&c.dataset.t!==k)});
+}
+document.querySelectorAll('.f').forEach(function(b){b.onclick=function(){setFilter(b.dataset.k)}});
+var bars=document.getElementById('bars'),cnt={edu:0,map:0,gis:0};
+D.forEach(function(e){cnt[e.t]++});
+['gis','map','edu'].forEach(function(k){
+  bars.insertAdjacentHTML('beforeend','<div class="bar"><span>'+L[k]+'</span><div class="track"><div class="fill" style="width:'+(cnt[k]/D.length*100)+'%;background:'+C[k]+'"></div></div><b>'+fa(cnt[k])+'</b></div>');
+});
+document.getElementById('theme').onclick=function(){
+  var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
+  r.dataset.theme=dark?'light':'dark';
+};
+</script>
+</body>
+</html>
